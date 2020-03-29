@@ -11,7 +11,13 @@ public class TheHistoryArray implements TheHistory {
 
     @Override
     public void add(String text) {
-        //TODO: check the TheHistory interface for more information
+        String[] temp=text.split("\\s+");
+//        for (int i=0;i<temp.length;i++)
+//            System.out.println(temp[i]+" ");
+        String[] newArray=new String[this.wordsArray.length+temp.length];
+        System.arraycopy(wordsArray,0,newArray,0,wordsArray.length);
+        System.arraycopy(temp,0,newArray,wordsArray.length,temp.length);
+        wordsArray=newArray;
     }
 
     @Override
@@ -21,8 +27,8 @@ public class TheHistoryArray implements TheHistory {
 
     @Override
     public int size() {
-        //TODO: check the TheHistory interface for more information
-        return 0;
+
+        return wordsArray.length;
     }
 
     @Override
@@ -48,5 +54,14 @@ public class TheHistoryArray implements TheHistory {
         }
         if (sb.length() > 0) sb.deleteCharAt(sb.length() - 1); // last space char
         return sb.toString();
+    }
+
+    public static void main (String[] args){
+        TheHistoryArray theHistory=new TheHistoryArray();
+        theHistory.add("newlines\nand tabs\ttoo");
+        System.out.println(theHistory.size());
+        System.out.println(theHistory.wordsArray[1]);
+
+
     }
 }

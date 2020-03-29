@@ -47,6 +47,7 @@ public class TestTheHistoryCorrectness {
     @Test
     public void add__multipleSpaces() {
         theHistory.add("multiple    spaces");
+        System.out.println(theHistory.size());
         assertEquals("multiple spaces", theHistory.toString());
         assertEquals(2, theHistory.size());
     }
