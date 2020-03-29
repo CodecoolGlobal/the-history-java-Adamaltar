@@ -1,5 +1,6 @@
 package com.codecool.thehistory;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class TheHistoryArray implements TheHistory {
@@ -11,13 +12,13 @@ public class TheHistoryArray implements TheHistory {
 
     @Override
     public void add(String text) {
-        String[] temp=text.split("\\s+");
+        String[] temp = text.split("\\s+");
 //        for (int i=0;i<temp.length;i++)
 //            System.out.println(temp[i]+" ");
-        String[] newArray=new String[this.wordsArray.length+temp.length];
-        System.arraycopy(wordsArray,0,newArray,0,wordsArray.length);
-        System.arraycopy(temp,0,newArray,wordsArray.length,temp.length);
-        wordsArray=newArray;
+        String[] newArray = new String[this.wordsArray.length + temp.length];
+        System.arraycopy(wordsArray, 0, newArray, 0, wordsArray.length);
+        System.arraycopy(temp, 0, newArray, wordsArray.length, temp.length);
+        wordsArray = newArray;
     }
 
     @Override
@@ -43,7 +44,50 @@ public class TheHistoryArray implements TheHistory {
 
     @Override
     public void replaceMoreWords(String[] fromWords, String[] toWords) {
-        //TODO: check the TheHistory interface for more information
+        int[] indexes=getIndexesOfSentence(fromWords);
+        String[] newArray=new String[wordsArray.length-indexes.length*(fromWords.length-toWords.length)];
+        int i=0;
+        int ct=0;
+        for (int index:
+             indexes) {
+            while (i<index)
+                newArray[ct++]=wordsArray[i++];
+            for (int j=0;j<toWords.length;j++)
+                newArray[ct++]=toWords[j];
+            i+=fromWords.length;
+
+        }
+
+        while (i<wordsArray.length)
+            newArray[ct++] = wordsArray[i++];
+
+        wordsArray=newArray;
+
+    }
+
+    public int[] getIndexesOfSentence(String[] sentence) {
+        ArrayList<Integer> indexes = new ArrayList<>();
+        int i=0;
+        while (i < wordsArray.length-(sentence.length-1)) {
+            if (wordsArray[i].equals(sentence[0])) {
+                boolean mismatch = false;
+                int j = 1;
+                while (j < sentence.length && wordsArray[i + j].equals(sentence[j]))
+                    j++;
+                if (j == sentence.length) {
+                    indexes.add(i);
+                    i = i + j;
+                } else
+                    i++;
+            } else
+                i++;
+
+        }
+        int[] res=new int[indexes.size()];
+        for (i=0;i<res.length;i++)
+            res[i]=indexes.get(i);
+
+        return res;
     }
 
     @Override
@@ -56,11 +100,12 @@ public class TheHistoryArray implements TheHistory {
         return sb.toString();
     }
 
-    public static void main (String[] args){
-        TheHistoryArray theHistory=new TheHistoryArray();
-        theHistory.add("newlines\nand tabs\ttoo");
-        System.out.println(theHistory.size());
-        System.out.println(theHistory.wordsArray[1]);
+    public static void main(String[] args) {
+        TheHistoryArray theHistory = new TheHistoryArray();
+        theHistory.add("ca ca nd a a fost odata a fost a fost o data a fost");
+        theHistory.replaceMoreWords(new String[]{"a","fost","odata"},new String[]{"bla","ble"});
+        System.out.println(theHistory);
+        //System.out.println(x.length);
 
 
     }
