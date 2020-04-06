@@ -13,8 +13,7 @@ public class TheHistoryArray implements TheHistory {
     @Override
     public void add(String text) {
         String[] temp = text.split("\\s+");
-//        for (int i=0;i<temp.length;i++)
-//            System.out.println(temp[i]+" ");
+
         String[] newArray = new String[this.wordsArray.length + temp.length];
         System.arraycopy(wordsArray, 0, newArray, 0, wordsArray.length);
         System.arraycopy(temp, 0, newArray, wordsArray.length, temp.length);
