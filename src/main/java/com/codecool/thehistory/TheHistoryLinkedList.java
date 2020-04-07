@@ -20,7 +20,12 @@ public class TheHistoryLinkedList implements TheHistory {
 
     @Override
     public void removeWord(String wordToBeRemoved) {
-        //TODO: check the TheHistory interface for more information
+        ListIterator<String> it=wordsLinkedList.listIterator();
+        while (it.hasNext())
+            if (it.next().equals(wordToBeRemoved))
+                it.remove();
+
+
     }
 
     @Override
@@ -31,17 +36,21 @@ public class TheHistoryLinkedList implements TheHistory {
 
     @Override
     public void clear() {
-        //TODO: check the TheHistory interface for more information
+        wordsLinkedList.clear();
     }
 
     @Override
     public void replaceOneWord(String from, String to) {
-        //TODO: check the TheHistory interface for more information
+        ListIterator<String> it=wordsLinkedList.listIterator();
+        while (it.hasNext())
+            if (it.next().equals(from))
+                it.set(to);
     }
 
     @Override
     public void replaceMoreWords(String[] fromWords, String[] toWords) {
         ListIterator<String> it=wordsLinkedList.listIterator();
+
         int[] indexes=getIndexesOfSentence(fromWords);
         LinkedList<String> newList=new LinkedList<>();
 

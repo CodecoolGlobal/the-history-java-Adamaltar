@@ -1,7 +1,7 @@
 package com.codecool.thehistory;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+
 
 public class TheHistoryArray implements TheHistory {
 
@@ -22,7 +22,18 @@ public class TheHistoryArray implements TheHistory {
 
     @Override
     public void removeWord(String wordToBeRemoved) {
-        //TODO: check the TheHistory interface for more information
+        int ct=0;
+        for (int i=0;i<wordsArray.length;i++)
+            if (wordsArray[i].equals(wordToBeRemoved))
+                ct++;
+            else
+                wordsArray[i-ct]=wordsArray[i];
+        String newArray[]=new String[wordsArray.length-ct];
+        System.arraycopy(wordsArray,0,newArray,0,newArray.length);
+        wordsArray=newArray;
+
+
+
     }
 
     @Override
@@ -33,12 +44,14 @@ public class TheHistoryArray implements TheHistory {
 
     @Override
     public void clear() {
-        //TODO: check the TheHistory interface for more information
+        wordsArray = new String[0];
     }
 
     @Override
     public void replaceOneWord(String from, String to) {
-        //TODO: check the TheHistory interface for more information
+        for (int i=0;i<wordsArray.length;i++)
+            if (wordsArray[i].equals(from))
+                wordsArray[i]=to;
     }
 
     @Override

@@ -13,35 +13,93 @@ public class TheHistoryArrayList implements TheHistory {
 
     @Override
     public void add(String text) {
-        //TODO: check the TheHistory interface for more information
+        String[] temp = text.split("\\s+");
+        for (String word:
+                temp) {
+            wordsArrayList.add(word);
+        }
     }
 
     @Override
     public void removeWord(String wordToBeRemoved) {
-        //TODO: check the TheHistory interface for more information
+        int ct=0;
+        int n=wordsArrayList.size();
+        ArrayList<String> newList=new ArrayList<>();
+
+        for (int i=0;i< wordsArrayList.size();i++)
+            if (wordsArrayList.get(i).equals(wordToBeRemoved))
+                ct++;
+            else
+                wordsArrayList.set(i-ct,wordsArrayList.get(i));
+        while (wordsArrayList.size()>n-ct)
+            wordsArrayList.remove(wordsArrayList.size()-1);
+
+
+
     }
 
     @Override
     public int size() {
-        //TODO: check the TheHistory interface for more information
-        return 0;
+        return wordsArrayList.size();
     }
 
     @Override
     public void clear() {
-        //TODO: check the TheHistory interface for more information
+        wordsArrayList.clear();
     }
 
     @Override
     public void replaceOneWord(String from, String to) {
-        //TODO: check the TheHistory interface for more information
+        for (int i=0;i<wordsArrayList.size();i++)
+            if (wordsArrayList.get(i).equals(from))
+                wordsArrayList.set(i,to);
     }
 
     @Override
     public void replaceMoreWords(String[] fromWords, String[] toWords) {
-        //TODO: check the TheHistory interface for more information
+        int[] indexes=getIndexesOfSentence(fromWords);
+        ArrayList<String> newArray=new ArrayList<>();
+        int i=0;
+        int ct=0;
+        for (int index:
+                indexes) {
+            while (i<index)
+                newArray.add(wordsArrayList.get(i++));
+            for (int j=0;j<toWords.length;j++)
+                newArray.add(toWords[j]);
+            i+=fromWords.length;
+
+        }
+
+        while (i<wordsArrayList.size())
+            newArray.add(wordsArrayList.get(i++));
+
+        wordsArrayList=newArray;
     }
 
+    public int[] getIndexesOfSentence(String[] sentence) {
+        ArrayList<Integer> indexes = new ArrayList<>();
+        int i=0;
+        while (i < wordsArrayList.size()-(sentence.length-1)) {
+            if (wordsArrayList.get(i).equals(sentence[0])) {
+                int j = 1;
+                while (j < sentence.length && wordsArrayList.get(i + j).equals(sentence[j]))
+                    j++;
+                if (j == sentence.length) {
+                    indexes.add(i);
+                    i = i + j;
+                } else
+                    i++;
+            } else
+                i++;
+
+        }
+        int[] res=new int[indexes.size()];
+        for (i=0;i<res.length;i++)
+            res[i]=indexes.get(i);
+
+        return res;
+    }
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
