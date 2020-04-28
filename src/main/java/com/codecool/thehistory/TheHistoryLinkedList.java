@@ -122,8 +122,8 @@ public class TheHistoryLinkedList implements TheHistory {
 
     public static void main(String[] args) {
         TheHistoryLinkedList theHistory = new TheHistoryLinkedList();
-        theHistory.add("ac ca nd a a fost odata a fost a fost odata a fost");
-        theHistory.replaceMoreWords(new String[]{"a","fost","odata"},new String[]{"bla","ble"});
+        theHistory.add("ac ca nd a a a a fost odata a fost a a a fost odata a fost");
+        theHistory.replaceMoreWords(new String[]{"a","a","a","fost","odata"},new String[]{"bla","ble"});
         System.out.println(theHistory);
         //System.out.println(x.length);
 

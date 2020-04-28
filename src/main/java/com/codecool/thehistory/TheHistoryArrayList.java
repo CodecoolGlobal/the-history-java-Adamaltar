@@ -55,6 +55,7 @@ public class TheHistoryArrayList implements TheHistory {
                 wordsArrayList.set(i,to);
     }
 
+
     @Override
     public void replaceMoreWords(String[] fromWords, String[] toWords) {
         int[] indexes=getIndexesOfSentence(fromWords);
@@ -75,6 +76,37 @@ public class TheHistoryArrayList implements TheHistory {
             newArray.add(wordsArrayList.get(i++));
 
         wordsArrayList=newArray;
+    }
+
+    /**
+     * A faster version of replaceMoreWords
+     */
+
+    public void RMW(String[] fromWords, String[] toWords) {
+        ArrayList<String> replaced = new ArrayList<>();
+        int i=0;
+        while (i < wordsArrayList.size()-(fromWords.length-1)) {
+            if (wordsArrayList.get(i).equals(fromWords[0])) {
+                int j = 1;
+                while (j < fromWords.length && wordsArrayList.get(i + j).equals(fromWords[j]))
+                    j++;
+                if (j == fromWords.length) {
+                    i += j;
+                    for (String word : toWords)
+                        replaced.add(word);
+                } else {
+                    replaced.add(wordsArrayList.get(i));
+                    i++;
+                }
+            } else {
+                replaced.add(wordsArrayList.get(i));
+                i++;
+            }
+        }
+        while (i<wordsArrayList.size())
+            replaced.add(wordsArrayList.get(i++));
+
+        wordsArrayList=replaced;
     }
 
     public int[] getIndexesOfSentence(String[] sentence) {
@@ -100,6 +132,9 @@ public class TheHistoryArrayList implements TheHistory {
 
         return res;
     }
+
+
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
