@@ -50,58 +50,40 @@ public class TheHistoryLinkedList implements TheHistory {
     @Override
     public void replaceMoreWords(String[] fromWords, String[] toWords) {
         ListIterator<String> it=wordsLinkedList.listIterator();
-
         int[] indexes=getIndexesOfSentence(fromWords);
         LinkedList<String> newList=new LinkedList<>();
-
         for (int index:indexes){
             while (it.nextIndex()<index)
                 newList.add(it.next());
-
             for (int j=0;j<toWords.length;j++)
                 newList.add(toWords[j]);
             while (it.nextIndex()<index+fromWords.length)
                 it.next();
-
         }
-
         while (it.hasNext())
             newList.add(it.next());
-
         wordsLinkedList=newList;
     }
 
     public int[] getIndexesOfSentence(String[] sentence) {
         ArrayList<Integer> indexes = new ArrayList<>();
-        int i=0;
-        ListIterator<String> it=wordsLinkedList.listIterator();
-        while (i < wordsLinkedList.size()-(sentence.length-1)) {
-            if (it.next().equals(sentence[0])) {
-                //System.out.println("starting from "+i);
-                boolean mismatch = false;
-                int j = 1;
-                while (j < sentence.length && it.next().equals(sentence[j]))
-                    j++;
-                if (j == sentence.length) {
-                    indexes.add(i);
-
-                    //System.out.println("found from "+i+", to "+(i+j-1));
-                    i=i+j;
-                } else{
-                    while (it.previousIndex()!=i)
-                        it.previous();
-                    i++;
-                    }
-
-
-
-
+        int i = 0;
+        ListIterator<String> it = wordsLinkedList.listIterator();
+        while (i < wordsLinkedList.size() - (sentence.length - 1)) {
+            int j = 0;
+            while (j < sentence.length && it.next().equals(sentence[j]))
+                j++;
+            if (j == sentence.length) {
+                indexes.add(i);
+                i = i + j;
             } else {
+                while (j > 0) {
+                    it.previous();
+                    j--;
+                }
                 i++;
-                //System.out.println("no, moving on to "+i);
             }
         }
-
         int[] res=new int[indexes.size()];
         for (i=0;i<res.length;i++)
             res[i]=indexes.get(i);
